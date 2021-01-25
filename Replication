@@ -1,0 +1,36 @@
+echnologies for copying and distributing data and database objects from one database to another and then synchronizing between databases to maintain consistency
+
+1) Transactional replication -->for improving scalability and availability;
+2) Merge replication --> designed for mobile applications or distributed server applications that have possible data conflicts
+3) Snapshot replication -->provide the initial data set for transactional and merge replication;it can also be used when complete refreshes of data are appropriate
+
+components involved in replication
+1) Publisher --> SQL Server instance that is replicating the data
+2) Subscriber --> SQL Server instance that is receiving the data 
+3) Articel --> individual database object like a table, view or stored procedure, etc. that will be replicating to another server.
+4) Publications ->  set of articles that are being replicated to a Subscriber.
+5) Distributer --> atabase that stores replication specific data 
+6) Agent jobs --> replication processes involved in copying and moving data between the Publisher and Subscribers.
+
+Replication Agents are involved in SQL Server Transactional Replication?
+1) Snapshot Agent
+2) Log Reader Agent --> used by Transactional replication only.replicates all transactions from the Publisher to the Distributor.it runs on the Distributor.
+3) Distribution Agent -->move transactions from the distributor to subscriber.used by Snapshot and Transactional replication.runs on the distributor for PUSH subscriptions and 
+   runs on the Subscriber for PULL subscriptions.
+4) Queue Reader Agent
+
+Change subscriber DB name steps:
+1) ALTER DATABASE DBNAME Modify Name = DBNAME_NEW;
+2) create another subscription for this renamed database and drop the older subscription.
+
+
+We can configure Replication for any database irrespective of their recovery model. The recovery model is not a prerequisite to configure replication for a database.
+Cannot truncate a table that is marked for replication.
+
+all tables that need to be replicated have a primary key for transactional replication
+
+Reasons fo replication latency :
+1) One of the Replication Agent jobs is not running or failing during execution.
+2) A huge data load or large transactions occurred on your publication database.
+3) You have small network bandwidth to replicate your large set of data.
+4) Poor resource configuration like storage, RAM, etc
